@@ -1,2 +1,1 @@
-print("Hola").
-print("xd").
+print ("Hola Nico2")
