@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <style>
+      .video-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+      }
+      .video-frame {
+        width: 80%;
+        height: 100%;
+        border: 1px solid black;
+      }
+      .related-videos {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        height: 100%;
+        border: 1px solid black;
+        overflow-y: scroll;
+        padding: 10px;
+      }
+      .related-video {
+        margin-bottom: 10px;
+      }
+      .related-video img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-container">
+      <iframe class="video-frame" src="https://www.youtube.com/embed/ZTsi1e-VJIU"></iframe>
+    </div>
+    <div class="related-videos"></div>
+  </body>
+  <script>
+    const API_KEY = "AIzaSyDjKVXdAOYTxDfWud8hLl_zkxT6WzqwZbw";
+    const videoId = "ZTsi1e-VJIU";
+    const relatedVideosContainer = document.querySelector(".related-videos");
+
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${API_KEY}`
+    )
+      .then(response => response.json())
+      .then(data => {
+        data.items.forEach(item => {
+          const relatedVideo = document.createElement("div");
+          relatedVideo.classList.add("related-video");
+
+          //const relatedVideoThumb = JSON.stringify(document.createElement("img"));
+          const relatedVideoThumb = document.createElement("img");
+          relatedVideoThumb.src = item.snippet.thumbnails.default.url;
+          relatedVideo.appendChild(relatedVideoThumb);
+
+          relatedVideosContainer.appendChild(relatedVideo);
+          
+        });
+        console.log(relatedVideosJson);
+      });
+  </script>
+</html>
