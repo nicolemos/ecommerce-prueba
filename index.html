@@ -41,15 +41,23 @@
     const playlistId = "PLVs9JdE6ZZh112EBnYa_wCxYpbVXEXrLF";
     const channelId = "UCGz-3CI7Wyvgu55SH1uDeNg"
     const relatedVideosContainer = document.querySelector(".related-videos");
+    let curso = {};
 
     fetch(
-      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&channelId=${channelId}&playlistId=${playlistId}&maxResults=15&key=${API_KEY}`
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&channelId=${channelId}&playlistId=${playlistId}&maxResults=11&key=${API_KEY}`
     )
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        console.log(data.items[0].snippet.title)
+        curso.id_video = data.items[0].snippet.resourceId.videoId;
+        curso.titulo_video = data.items[0].snippet.title;
+        curso.descripcion_video = data.items[0].snippet.description;
+        curso.miniatura_video = data.items[0].snippet.thumbnails.high.url;
+        curso.precio = 30;
+        curso.url = []
+        console.log(curso);
         data.items.forEach(item => {
+          console.log(item.snippet.title)
           const relatedVideo = document.createElement("div");
           relatedVideo.classList.add("related-video");
 
@@ -59,9 +67,15 @@
           relatedVideo.appendChild(relatedVideoThumb);
 
           relatedVideosContainer.appendChild(relatedVideo);
+
+          curso.url.push({
+            id_video : item.snippet.resourceId.videoId,
+            titulo_video : item.snippet.title,
+            descripcion_video : item.snippet.description,
+          });
           
         });
-        //console.log(relatedVideosJson);
+        jsonCurso = JSON.stringify(curso);
       });
       
   </script>
